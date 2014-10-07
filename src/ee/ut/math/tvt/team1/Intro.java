@@ -12,7 +12,7 @@ import java.util.Properties;
 
 import javax.swing.text.html.ImageView;
 
-public class Intro {
+public class Intro { //#YoloSwaggins
 	
 	private String teamName;
 	private String teamLeader;
