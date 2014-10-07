@@ -51,9 +51,11 @@
 			includeantruntime="false">
 			<classpath refid="compile.classpath"/>
 		</javac>
+		
 		<propertyfile
 			file = "version.properties">
-			<entry key="build.revision.number" type="int" default="0" operation="+"/>
+			<entry key="build.revision.number" type="int" operation="+" value="${build.revision.number}" />
+			
 		</propertyfile>
 		
 	</target>
