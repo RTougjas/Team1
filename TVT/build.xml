@@ -38,6 +38,7 @@
 	</target>
 	
 	<target name="build" description="Build">
+		<mkdir dir="lib" />
 		<mkdir dir="${build.dir}"/>
 		<mkdir dir="${build.jar.dir}"/>
 		<javac
