@@ -12,43 +12,10 @@ import java.util.Properties;
 
 import javax.swing.text.html.ImageView;
 
-public class Intro { //#YoloSwaggins
-	
-	private String teamName;
-	private String teamLeader;
-	private String teamLeaderEmail;
-	private String[] teamMembers = new String[4];
-	private ImageView logo;
-	private String versionNumber;
-	
-	public static String readProperty(File file, String key) {
-		
-		Properties properties = new Properties();
-		InputStream input;
-		String value = "";
-		
-		try {
-			input = new FileInputStream(file);
-			properties.load(input);
-			value = properties.getProperty(key);
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return value;
-	}
-	
-	public static void main(String[] args) {
-		
-		
-		File appProp = new File("application.properties");
-		File verProp = new File("version.properties");
-		
-		
-
+public class Intro { 
+		public static void main(String[] args) throws Exception {
+		IntroUI a = new IntroUI();
+		a.intro();
 	}
 
 }
