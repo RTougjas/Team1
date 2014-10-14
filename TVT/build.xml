@@ -53,16 +53,10 @@
 			<classpath refid="compile.classpath"/>
 		</javac>
 		
-		<propertyfile
-			file = "version.properties">
-			<entry key="build.revision.number" type="int" operation="+" value="${build.revision.number}" />
-			
-		</propertyfile>
-		
 	</target>
 	
 	<!--Creates the deployable jar file  -->
-	<target name="dict" depends="build">
+	<target name="dist" depends="build">
 		<jar destfile="build/jar/Team1.jar">
 			<fileset dir="${build.dir}" />
 			<zipfileset includes="**/*.class" src="lib/log4j-1.2.17.jar" />
@@ -70,9 +64,13 @@
 				<attribute name="Main-Class" value="ee.ut.math.tvt.team1.Intro" />
 			</manifest>
 		</jar>
+		<propertyfile
+			file = "version.properties">
+			<entry key="build.revision.number" type="int" operation="+" value="${build.revision.number}" />
+		</propertyfile>
 	</target>
 
-	<target name="jrun" depends="dict">
+	<target name="jrun" depends="dist">
 		<java jar="build/jar/Team1.jar" fork="true"/>
 	</target>
 	
