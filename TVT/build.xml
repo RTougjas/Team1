@@ -102,7 +102,15 @@
 		/>
 		<exec executable="cmd" failonerror="true">
 			<arg value="/c"/>
-		    <arg value="git add --all; git commit -m ${commit.comment}; git push https://${commit.username}:${commit.pw}@github.com//RTougjas//Team1.git"/>
+		    <arg value="git add --all"/>
+		</exec>
+		<exec executable="cmd" failonerror="true">
+			<arg value="/c"/>
+		    <arg value="git commit -m ${commit.comment}"/>
+		</exec>
+		<exec executable="cmd" failonerror="true">
+			<arg value="/c"/>
+		    <arg value="git push https://${commit.username}:${commit.pw}@github.com//RTougjas//Team1.git"/>
 		</exec>
 	</target>
 	
