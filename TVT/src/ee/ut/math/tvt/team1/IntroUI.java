@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class IntroUI {
+public class IntroUI extends JFrame{
 	
 	private String teamName;
 	private String teamLeader;
@@ -125,5 +125,5 @@ public class IntroUI {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
+
 }
