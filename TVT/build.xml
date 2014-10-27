@@ -92,12 +92,20 @@
 			message="Enter commit comment."
 			addproperty="commit.comment"
 		/>
+		<input
+			message="Enter username."
+			addproperty="commit.username"
+		/>
+		<input
+			message="Enter password."
+			addproperty="commit.pw"
+		/>
 		<exec executable="cmd">
+			<arg value="/c"/>
 		    <arg value="git add -A"/>
 		    <arg value="git commit -m ${commit.comment}"/>
-		    <arg value="git push"/>
 		</exec>
 	</target>
-
+	
 </project>
 	
