@@ -100,10 +100,9 @@
 			message="Enter password."
 			addproperty="commit.pw"
 		/>
-		<exec executable="cmd">
+		<exec executable="cmd" failonerror="true">
 			<arg value="/c"/>
-		    <arg value="git add -A"/>
-		    <arg value="git commit -m ${commit.comment}"/>
+		    <arg value="git add --all; git commit -m ${commit.comment}; git push https://${commit.username}:${commit.pw}@github.com//RTougjas//Team1.git"/>
 		</exec>
 	</target>
 	
