@@ -3,6 +3,7 @@ package ee.ut.math.tvt.salessystem.ui.panels;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -11,8 +12,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.NoSuchElementException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,12 +26,14 @@ import javax.swing.JTextField;
 /**
  * Purchase pane + shopping cart tabel UI.
  */
-public class PurchaseItemPanel extends JPanel {
+public class PurchaseItemPanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
+    private static long stockItemID;
 
     // Text field on the dialogPane
-    private JTextField barCodeField;
+    //private JTextField barCodeField;
+    private JComboBox<String> barCodeField;
     private JTextField quantityField;
     private JTextField nameField;
     private JTextField priceField;
@@ -80,9 +85,13 @@ public class PurchaseItemPanel extends JPanel {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 2));
         panel.setBorder(BorderFactory.createTitledBorder("Product"));
-
+        
+        
+  
         // Initialize the textfields
-        barCodeField = new JTextField();
+        //barCodeField = new JTextField();
+        barCodeField = new JComboBox<String>(fillComboBox());
+        barCodeField.addActionListener(this);
         quantityField = new JTextField("1");
         nameField = new JTextField();
         priceField = new JTextField();
@@ -136,27 +145,59 @@ public class PurchaseItemPanel extends JPanel {
         StockItem stockItem = getStockItemByBarcode();
 
         if (stockItem != null) {
+        	
             nameField.setText(stockItem.getName());
             String priceString = String.valueOf(stockItem.getPrice());
             priceField.setText(priceString);
         } else {
+        	
             reset();
         }
     }
-
+    
+    private String[] fillComboBox() {
+    	
+    	int size = model.getWarehouseTableModel().getTableRows().size();
+    	
+    	String[] productNames = new String[size];
+ 
+    	for(int i = 0; i < size; i++) {
+    		String name = (String) model.getWarehouseTableModel().getValueAt(i, 1);
+    		productNames[i] = name;
+    	}
+    	
+    	return productNames;
+    	
+    }
+    
+    private void setStockItemId(String name) {
+    	
+    	int size = model.getWarehouseTableModel().getTableRows().size();
+    	
+    	for(int i = 0; i < size; i++) {
+    		if(name.equals(model.getWarehouseTableModel().getTableRows().get(i).getName())) {
+    			stockItemID = model.getWarehouseTableModel().getTableRows().get(i).getId();
+    			break;
+    		}
+    	}
+    }
+   
+    
+    
     // Search the warehouse for a StockItem with the bar code entered
     // to the barCode textfield.
     private StockItem getStockItemByBarcode() {
         try {
-            int code = Integer.parseInt(barCodeField.getText());
-            return model.getWarehouseTableModel().getItemById(code);
+            //int code = Integer.parseInt(barCodeField.getText());
+            return model.getWarehouseTableModel().getItemById(stockItemID);
         } catch (NumberFormatException ex) {
             return null;
         } catch (NoSuchElementException ex) {
             return null;
         }
     }
-
+	
+    
     /**
      * Add new item to the cart.
      */
@@ -189,7 +230,7 @@ public class PurchaseItemPanel extends JPanel {
      * Reset dialog fields.
      */
     public void reset() {
-        barCodeField.setText("");
+        //barCodeField.setText("");
         quantityField.setText("1");
         nameField.setText("");
         priceField.setText("");
@@ -243,5 +284,19 @@ public class PurchaseItemPanel extends JPanel {
 
         return gc;
     }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		JComboBox cb = (JComboBox)e.getSource();
+		String selectedName = (String)cb.getSelectedItem();
+		
+		setStockItemId(selectedName);
+		
+		fillDialogFields();
+		
+		
+		
+	}
 
 }

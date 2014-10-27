@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.team1;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
@@ -15,9 +16,12 @@ public class Intro {
 	
 	public static void main(String[] args) {
 	
+		BasicConfigurator.configure();
+		
 		final SalesDomainController domainController = new SalesDomainControllerImpl();
 	
 		if (args.length == 1 && args[0].equals(MODE)) {
+			
 			log.debug("Mode: " + MODE);
 	
 			ConsoleUI cui = new ConsoleUI(domainController);
@@ -35,9 +39,10 @@ public class Intro {
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				log.error(e.getMessage());
 			}
 			introUI.setVisible(false);
+			
 		}
 		
 	}
