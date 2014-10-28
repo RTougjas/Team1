@@ -1,18 +1,28 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
+
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -107,6 +117,78 @@ public class PurchaseTab {
     JButton b = new JButton("Confirm");
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
+        
+    	final JFrame paying = new JFrame("Paying");
+        paying.getContentPane().setLayout(new FlowLayout());        
+        
+        // Calculating total
+        int currentPurchaseQuantity = model.getCurrentPurchaseTableModel().getTableRows().size();
+        double sum = 0;
+        
+        for(int i = 0; i < currentPurchaseQuantity; i++) {
+        	sum = sum + model.getCurrentPurchaseTableModel().getTableRows().get(i).getSum();
+        }
+        final double finalsum = sum;
+        
+        final JLabel total = new JLabel(String.valueOf(sum));
+        final JTextField payment = new JTextField("Payment");
+        final JLabel change = new JLabel("0.0");
+        final JButton accept = new JButton("Accept");
+        final JButton cancel = new JButton("Cancel");
+        
+        paying.getContentPane().add(total);
+        paying.getContentPane().add(payment);
+        paying.getContentPane().add(change);
+        paying.getContentPane().add(accept);
+        paying.getContentPane().add(cancel);
+        
+        
+        // payment actionListener 
+        payment.getDocument().addDocumentListener(new DocumentListener() {
+        	  public void changedUpdate(DocumentEvent e) {
+        	    change();
+        	  }
+        	  public void removeUpdate(DocumentEvent e) {
+        	    change();
+        	  }
+        	  public void insertUpdate(DocumentEvent e) {
+        	    change();
+        	  }
+        	public void change(){
+        		change.setText(String.valueOf(Double.valueOf(payment.getText())-finalsum));
+        	
+        	}
+        });
+        
+        // Accept button actionlistener
+        accept.addActionListener(new ActionListener(){
+        	
+        	public void actionPerformed(ActionEvent e)
+        	{
+        	
+        	// TODO: If the payment is accepted then order should be accepted and saved.
+    		
+        	}
+        });
+        
+        // Cancel button actionlistener
+        cancel.addActionListener(new ActionListener(){
+        	
+        	public void actionPerformed(ActionEvent e)
+        	{
+        	
+        	// TODO: If the payment is canceled, then the screen should be closed/hided and the shopping cart should restore the state when it was left.
+        		
+        	paying.dispose();
+        	
+    		
+        	}
+        });
+        
+        
+        paying.setVisible(true);
+        paying.pack();
+        
         submitPurchaseButtonClicked();
       }
     });
