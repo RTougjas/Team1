@@ -3,6 +3,7 @@ package ee.ut.math.tvt.salessystem.ui.model;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.domain.exception.InsufficientAmountException;
 import ee.ut.math.tvt.salessystem.ui.SalesSystemUI;
 
 /**
@@ -14,7 +15,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 	private static final Logger log = Logger.getLogger(PurchaseInfoTableModel.class);
 	
 	public PurchaseInfoTableModel() {
-		super(new String[] { "Id", "Name", "Price", "Quantity"});
+		super(new String[] { "Id", "Name", "Price", "Quantity", "Sum"});
 	}
 
 	@Override
@@ -28,6 +29,8 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 			return item.getPrice();
 		case 3:
 			return item.getQuantity();
+		case 4:
+			return item.getSum();
 		}
 		throw new IllegalArgumentException("Column index out of range");
 	}
@@ -54,15 +57,83 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 	
     /**
      * Add new StockItem to table.
+     * @throws InsufficientAmountException 
      */
-    public void addItem(final SoldItem item) {
+    public void addItem(final SoldItem item) throws InsufficientAmountException {
         /**
          * XXX In case such stockItem already exists increase the quantity of the
          * existing stock.
          */
-        
-        rows.add(item);
-        log.debug("Added " + item.getName() + " quantity of " + item.getQuantity());
-        fireTableDataChanged();
+    	
+    	int soldItemQuantity = item.getQuantity();
+    	int stockItemQuantity = item.getStockItem().getQuantity();
+    	
+    	int tempStockItemQuantity;
+   
+    	
+    	if(rows.size() == 0) {
+    		if(soldItemQuantity <= stockItemQuantity) {
+    			rows.add(item);
+    			tempStockItemQuantity = stockItemQuantity - soldItemQuantity;
+    			System.out.println(tempStockItemQuantity);
+    		}
+    		else {throw new InsufficientAmountException();}
+    	}
+    	else {
+    		boolean isInCart = false;
+			int indeks = 0;
+			for(int i = 0; i < rows.size(); i++) {
+				if(item.getId().equals(rows.get(i).getId())) {
+					isInCart = true;
+					indeks = i;
+					continue;
+				}
+			}
+		
+			if(isInCart) {
+				rows.get(indeks).setQuantity(rows.get(indeks).getQuantity() + item.getQuantity());
+				tempStockItemQuantity = rows.get(indeks).getQuantity();
+				if(tempStockItemQuantity > stockItemQuantity) {
+					throw new InsufficientAmountException();
+				}
+				System.out.println(tempStockItemQuantity);
+			}
+			else {
+				rows.add(item);
+			}
+    	}
+    	
+    	fireTableDataChanged();
+    	
+    	/*
+    	if(soldItemQuantity <= stockItemQuantity) {
+    		if(rows.size() == 0) {
+    			
+    			rows.add(item);
+    		}
+    		else {
+    			boolean isInCart = false;
+    			int indeks = 0;
+    			for(int i = 0; i < rows.size(); i++) {
+    				if(item.getId().equals(rows.get(i).getId())) {
+    					isInCart = true;
+    					indeks = i;
+    					continue;
+    				}
+    			}
+    		
+    			if(isInCart) {
+    				rows.get(indeks).setQuantity(rows.get(indeks).getQuantity() + item.getQuantity());
+    			}
+    			else {
+    				rows.add(item);
+    			}
+    		}
+    		fireTableDataChanged();
+    	}
+    	else {
+    		throw new InsufficientAmountException();
+    	}
+    	*/
     }
 }

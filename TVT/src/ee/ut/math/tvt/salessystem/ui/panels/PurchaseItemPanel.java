@@ -1,7 +1,10 @@
 package ee.ut.math.tvt.salessystem.ui.panels;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.domain.exception.InsufficientAmountException;
+import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 import java.awt.GridBagConstraints;
@@ -23,6 +26,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
+
 /**
  * Purchase pane + shopping cart tabel UI.
  */
@@ -31,6 +36,7 @@ public class PurchaseItemPanel extends JPanel implements ActionListener {
     private static final long serialVersionUID = 1L;
     private static long stockItemID;
 
+    private static final Logger log = Logger.getLogger(PurchaseItemPanel.class);
     // Text field on the dialogPane
     //private JTextField barCodeField;
     private JComboBox<String> barCodeField;
@@ -131,7 +137,9 @@ public class PurchaseItemPanel extends JPanel implements ActionListener {
         addItemButton = new JButton("Add to cart");
         addItemButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                addItemEventHandler();
+                
+            	addItemEventHandler();
+          
             }
         });
 
@@ -211,8 +219,14 @@ public class PurchaseItemPanel extends JPanel implements ActionListener {
             } catch (NumberFormatException ex) {
                 quantity = 1;
             }
-            model.getCurrentPurchaseTableModel()
-                .addItem(new SoldItem(stockItem, quantity));
+            try {
+				model.getCurrentPurchaseTableModel()
+				    .addItem(new SoldItem(stockItem, quantity));
+			} catch (InsufficientAmountException e) {
+				log.error(e);
+			}
+            
+            
         }
     }
 
