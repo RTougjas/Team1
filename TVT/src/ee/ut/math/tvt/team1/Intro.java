@@ -15,21 +15,10 @@ public class Intro {
 	private static final String MODE = "console";
 	
 	public static void main(String[] args) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-		BasicConfigurator.configure();
->>>>>>> origin/TASK1_BUILD_SCRIPT
-=======
-		BasicConfigurator.configure();
->>>>>>> origin/TASK1_BUILD_SCRIPT
+
 	
 		BasicConfigurator.configure();
 		
-=======
-		BasicConfigurator.configure();
->>>>>>> origin/5.5yl
 		final SalesDomainController domainController = new SalesDomainControllerImpl();
 	
 		if (args.length == 1 && args[0].equals(MODE)) {

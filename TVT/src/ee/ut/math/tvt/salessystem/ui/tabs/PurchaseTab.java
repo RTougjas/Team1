@@ -1,36 +1,31 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
-<<<<<<< HEAD
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
-=======
->>>>>>> origin/5.5yl
+
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
-<<<<<<< HEAD
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-=======
+
 import java.awt.Color;
 import java.awt.Component;
->>>>>>> origin/5.5yl
+
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-<<<<<<< HEAD
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-=======
->>>>>>> origin/5.5yl
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
@@ -39,12 +34,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-<<<<<<< HEAD
-=======
+
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
->>>>>>> origin/5.5yl
+
 
 import org.apache.log4j.Logger;
 
@@ -137,27 +131,7 @@ public class PurchaseTab {
   private JButton createConfirmButton() {
     JButton b = new JButton("Confirm");
     b.addActionListener(new ActionListener() {
-<<<<<<< HEAD
-      
-    public void actionPerformed(ActionEvent e) {
     	
-    	/*
-    	int itemsInCart = model.getCurrentPurchaseTableModel().getTableRows().size();
-    	int cartRowItemQuantity;
-    	
-    	for(int i = 0; i < itemsInCart; i++) {
-    		cartRowItemQuantity = model.getCurrentPurchaseTableModel().getTableRows().get(i).getQuantity();
-    		
-    		
-    		
-    		
-    		//System.out.println(model.getCurrentPurchaseTableModel().getTableRows().get(i).getId()+ " " + itemQuantity);
-    	}
-    	*/
-    	
-    	
-    	submitPurchaseButtonClicked();
-=======
       public void actionPerformed(ActionEvent e) {
         
     	final JFrame paying = new JFrame("Paying");
@@ -230,7 +204,7 @@ public class PurchaseTab {
         paying.pack();
         
         submitPurchaseButtonClicked();
->>>>>>> origin/5.5yl
+
       }
     });
     b.setEnabled(false);
