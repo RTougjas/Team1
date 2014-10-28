@@ -17,6 +17,10 @@ import javax.swing.JPanel;
 
 public class IntroUI extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String teamName;
 	private String teamLeader;
 	private String teamLeaderEmail;
