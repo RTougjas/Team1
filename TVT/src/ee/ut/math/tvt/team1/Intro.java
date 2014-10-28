@@ -16,6 +16,10 @@ public class Intro {
 	
 	public static void main(String[] args) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+		BasicConfigurator.configure();
+>>>>>>> origin/TASK1_BUILD_SCRIPT
 	
 		BasicConfigurator.configure();
 		

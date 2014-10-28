@@ -86,7 +86,60 @@
 			<arg value="console" />
 		</java>
 	</target>
-
+	
+	<target name="git_commit" description="Pushes commits to our github">
+		<input
+			message="Enter commit comment."
+			addproperty="commit.comment"
+		/>
+		<input
+			message="Enter username."
+			addproperty="commit.username"
+		/>
+		<input
+			message="Enter password."
+			addproperty="commit.pw"
+		/>
+		<exec executable="cmd" failonerror="true">
+			<arg value="/c"/>
+		    <arg value="git add -A"/>
+		</exec>
+		<exec executable="cmd" failonerror="true">
+			<arg value="/c"/>
+		    <arg value='git commit -m "${commit.comment}"'/>
+		</exec>
+		<exec executable="cmd" failonerror="true">
+			<arg value="/c"/>
+		    <arg value="git push https://${commit.username}:${commit.pw}@github.com/RTougjas/Team1.git"/>
+		</exec>
+	</target>
+	
+	<target name="git_tag" description="Creates a new tag and synchronizes it with github">
+		<input
+			message="Enter tag name."
+			addproperty="tag.name"
+		/>
+		<input
+			message="Enter tag comment."
+			addproperty="tag.comment"
+		/>
+		<input
+			message="Enter username."
+			addproperty="commit.username"
+		/>
+		<input
+			message="Enter password."
+			addproperty="commit.pw"
+		/>
+			<exec executable="cmd" failonerror="true">
+				<arg value="/c"/>
+			    <arg value='git tag -a ${tag.name} -m "${tag.comment}"'/>
+			</exec>
+			<exec executable="cmd" failonerror="true">
+				<arg value="/c"/>
+			    <arg value="git push --tags https://${commit.username}:${commit.pw}@github.com/RTougjas/Team1.git"/>
+			</exec>
+	</target>
 	
 </project>
 	
