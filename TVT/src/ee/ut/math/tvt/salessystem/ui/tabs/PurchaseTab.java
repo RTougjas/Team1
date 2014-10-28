@@ -145,11 +145,9 @@ public class PurchaseTab {
         
         // payment actionListener 
         payment.getDocument().addDocumentListener(new DocumentListener() {
-        	  public void changedUpdate(DocumentEvent e) {
-        	    change();
+        	 public void changedUpdate(DocumentEvent e) {
         	  }
-        	  public void removeUpdate(DocumentEvent e) {
-        	    change();
+        	 public void removeUpdate(DocumentEvent e) {
         	  }
         	  public void insertUpdate(DocumentEvent e) {
         	    change();
