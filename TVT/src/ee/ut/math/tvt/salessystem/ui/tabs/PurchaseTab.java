@@ -1,18 +1,34 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.List;
+
 import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -66,8 +82,6 @@ public class PurchaseTab {
   }
 
 
-
-
   // The purchase menu. Contains buttons "New purchase", "Submit", "Cancel".
   private Component getPurchaseMenuPane() {
     JPanel panel = new JPanel();
@@ -106,8 +120,25 @@ public class PurchaseTab {
   private JButton createConfirmButton() {
     JButton b = new JButton("Confirm");
     b.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        submitPurchaseButtonClicked();
+      
+    public void actionPerformed(ActionEvent e) {
+    	
+    	/*
+    	int itemsInCart = model.getCurrentPurchaseTableModel().getTableRows().size();
+    	int cartRowItemQuantity;
+    	
+    	for(int i = 0; i < itemsInCart; i++) {
+    		cartRowItemQuantity = model.getCurrentPurchaseTableModel().getTableRows().get(i).getQuantity();
+    		
+    		
+    		
+    		
+    		//System.out.println(model.getCurrentPurchaseTableModel().getTableRows().get(i).getId()+ " " + itemQuantity);
+    	}
+    	*/
+    	
+    	
+    	submitPurchaseButtonClicked();
       }
     });
     b.setEnabled(false);
@@ -166,11 +197,13 @@ public class PurchaseTab {
   /** Event handler for the <code>submit purchase</code> event. */
   protected void submitPurchaseButtonClicked() {
     log.info("Sale complete");
+    
     try {
       log.debug("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
       domainController.submitCurrentPurchase(
           model.getCurrentPurchaseTableModel().getTableRows()
       );
+      
       endSale();
       model.getCurrentPurchaseTableModel().clear();
     } catch (VerificationFailedException e1) {
