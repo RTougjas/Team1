@@ -62,7 +62,7 @@ public class ConsoleUI {
 		}
 	}
 
-	private void populateWarehouse() {
+	public void populateWarehouse() {
 		warehouse = dc.loadWarehouseState();
 	}
 

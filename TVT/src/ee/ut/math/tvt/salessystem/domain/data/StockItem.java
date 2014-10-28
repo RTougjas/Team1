@@ -5,7 +5,7 @@ package ee.ut.math.tvt.salessystem.domain.data;
  */
 public class StockItem implements Cloneable, DisplayableItem {
 	
-    private Long id;
+	private Long id;
 
     private String name;
 
