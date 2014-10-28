@@ -1,5 +1,9 @@
 package ee.ut.math.tvt.salessystem.domain.controller.impl;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +42,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	    StockItem frankfurters = new StockItem(3l, "Frankfurters", "Beer sauseges", 15.0, 12);
 	    StockItem beer = new StockItem(4l, "Free Beer", "Student's delight", 0.0, 100);
 
+	  
 		dataset.add(chips);
 		dataset.add(chupaChups);
 		dataset.add(frankfurters);

@@ -1,25 +1,36 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
+<<<<<<< HEAD
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+=======
+>>>>>>> origin/5.5yl
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
+<<<<<<< HEAD
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+=======
+import java.awt.Color;
+import java.awt.Component;
+>>>>>>> origin/5.5yl
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
+=======
+>>>>>>> origin/5.5yl
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
@@ -28,6 +39,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+<<<<<<< HEAD
+=======
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+>>>>>>> origin/5.5yl
 
 import org.apache.log4j.Logger;
 
@@ -120,6 +137,7 @@ public class PurchaseTab {
   private JButton createConfirmButton() {
     JButton b = new JButton("Confirm");
     b.addActionListener(new ActionListener() {
+<<<<<<< HEAD
       
     public void actionPerformed(ActionEvent e) {
     	
@@ -139,6 +157,80 @@ public class PurchaseTab {
     	
     	
     	submitPurchaseButtonClicked();
+=======
+      public void actionPerformed(ActionEvent e) {
+        
+    	final JFrame paying = new JFrame("Paying");
+        paying.getContentPane().setLayout(new FlowLayout());        
+        
+        // Calculating total
+        int currentPurchaseQuantity = model.getCurrentPurchaseTableModel().getTableRows().size();
+        double sum = 0;
+        
+        for(int i = 0; i < currentPurchaseQuantity; i++) {
+        	sum = sum + model.getCurrentPurchaseTableModel().getTableRows().get(i).getSum();
+        }
+        final double finalsum = sum;
+        
+        final JLabel total = new JLabel(String.valueOf(sum));
+        final JTextField payment = new JTextField("Payment");
+        final JLabel change = new JLabel("0.0");
+        final JButton accept = new JButton("Accept");
+        final JButton cancel = new JButton("Cancel");
+        
+        paying.getContentPane().add(total);
+        paying.getContentPane().add(payment);
+        paying.getContentPane().add(change);
+        paying.getContentPane().add(accept);
+        paying.getContentPane().add(cancel);
+        
+        
+        // payment actionListener 
+        payment.getDocument().addDocumentListener(new DocumentListener() {
+        	 public void changedUpdate(DocumentEvent e) {
+        	  }
+        	 public void removeUpdate(DocumentEvent e) {
+        	  }
+        	  public void insertUpdate(DocumentEvent e) {
+        	    change();
+        	  }
+        	public void change(){
+        		change.setText(String.valueOf(Double.valueOf(payment.getText())-finalsum));
+        	
+        	}
+        });
+        
+        // Accept button actionlistener
+        accept.addActionListener(new ActionListener(){
+        	
+        	public void actionPerformed(ActionEvent e)
+        	{
+        	
+        	// TODO: If the payment is accepted then order should be accepted and saved.
+    		
+        	}
+        });
+        
+        // Cancel button actionlistener
+        cancel.addActionListener(new ActionListener(){
+        	
+        	public void actionPerformed(ActionEvent e)
+        	{
+        	
+        	// TODO: If the payment is canceled, then the screen should be closed/hided and the shopping cart should restore the state when it was left.
+        		
+        	paying.dispose();
+        	
+    		
+        	}
+        });
+        
+        
+        paying.setVisible(true);
+        paying.pack();
+        
+        submitPurchaseButtonClicked();
+>>>>>>> origin/5.5yl
       }
     });
     b.setEnabled(false);
