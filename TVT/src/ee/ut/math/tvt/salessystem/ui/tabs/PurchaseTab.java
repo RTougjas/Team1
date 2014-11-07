@@ -138,7 +138,7 @@ public class PurchaseTab {
         paying.getContentPane().setLayout(new FlowLayout());        
         
         // Calculating total
-        int currentPurchaseQuantity = model.getCurrentPurchaseTableModel().getTableRows().size();
+        final int currentPurchaseQuantity = model.getCurrentPurchaseTableModel().getTableRows().size();
         double sum = 0;
         
         for(int i = 0; i < currentPurchaseQuantity; i++) {
@@ -157,7 +157,7 @@ public class PurchaseTab {
         paying.getContentPane().add(change);
         paying.getContentPane().add(accept);
         paying.getContentPane().add(cancel);
-        
+        accept.setEnabled(false);
         
         // payment actionListener 
         payment.getDocument().addDocumentListener(new DocumentListener() {
@@ -169,8 +169,14 @@ public class PurchaseTab {
         	    change();
         	  }
         	public void change(){
+        		try {
         		change.setText(String.valueOf(Double.valueOf(payment.getText())-finalsum));
-        	
+         		if (Double.valueOf(payment.getText())-finalsum >= 0) {
+        			accept.setEnabled(true);
+         		}
+        		} catch(NumberFormatException e) {
+        			log.error("Not a number");
+        		}
         	}
         });
         
@@ -179,7 +185,12 @@ public class PurchaseTab {
         	
         	public void actionPerformed(ActionEvent e)
         	{
-        	
+        	for(int i = 0; i < currentPurchaseQuantity; i++) {
+                model.getWarehouseTableModel().removeItem(model.getCurrentPurchaseTableModel().getTableRows().get(i));
+                }
+            model.getCurrentPurchaseTableModel().clear();
+        	paying.dispose();
+
         	// TODO: If the payment is accepted then order should be accepted and saved.
     		
         	}
@@ -190,9 +201,7 @@ public class PurchaseTab {
         	
         	public void actionPerformed(ActionEvent e)
         	{
-        	
-        	// TODO: If the payment is canceled, then the screen should be closed/hided and the shopping cart should restore the state when it was left.
-        		
+        	        		
         	paying.dispose();
         	
     		
