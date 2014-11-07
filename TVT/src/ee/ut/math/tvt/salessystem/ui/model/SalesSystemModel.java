@@ -16,6 +16,8 @@ public class SalesSystemModel {
     
     // Current shopping cart model
     private PurchaseInfoTableModel currentPurchaseTableModel;
+    
+    private HistoryTableModel historyTableModel;
 
     private final SalesDomainController domainController;
 
