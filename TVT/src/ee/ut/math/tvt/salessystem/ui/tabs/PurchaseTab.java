@@ -187,14 +187,15 @@ public class PurchaseTab {
         	for(int i = 0; i < currentPurchaseQuantity; i++) {
                 model.getWarehouseTableModel().removeItem(model.getCurrentPurchaseTableModel().getTableRows().get(i));
                 }
-            model.getCurrentPurchaseTableModel().clear();
-        	paying.dispose();
         	double sum = 0;
         	for(int i = 0; i < currentPurchaseQuantity; i++) {
             	sum = sum + model.getCurrentPurchaseTableModel().getTableRows().get(i).getSum();
             }
         	HistoryItem newItem = new HistoryItem(new Date(), sum);
-        	//model.geHistoryTableModel().addItem(newItem);
+        	model.getCurrentPurchaseTableModel().clear();
+         	paying.dispose();
+        	model.getHistoryTableModel().addItem(newItem);
+            endSale();
 
         	// TODO: If the payment is accepted then order should be accepted and saved.
     		
