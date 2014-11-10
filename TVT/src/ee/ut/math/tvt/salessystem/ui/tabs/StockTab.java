@@ -126,14 +126,14 @@ public class StockTab {
     		log.error(z);
     		adding.dispose();
     	}
+    	
+		
     	}
     });
     
     adding.getContentPane().add(add2);
     adding.setVisible(true);
     adding.pack();
-    
-    model.getWarehouseTableModel().fireTableDataChanged();
   }
 
   // table of the wareshouse stock
