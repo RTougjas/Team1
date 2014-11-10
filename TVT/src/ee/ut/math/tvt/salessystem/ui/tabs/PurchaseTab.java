@@ -1,7 +1,6 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
-
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
@@ -12,17 +11,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-
 import java.awt.Color;
 import java.awt.Component;
-
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -34,11 +30,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
 
 import org.apache.log4j.Logger;
 
@@ -100,7 +94,7 @@ public class PurchaseTab {
     // Initialize layout
     panel.setLayout(new GridBagLayout());
     GridBagConstraints gc = getConstraintsForMenuButtons();
-
+   
     // Initialize the buttons
     newPurchase = createNewPurchaseButton();
     submitPurchase = createConfirmButton();
@@ -120,6 +114,7 @@ public class PurchaseTab {
     JButton b = new JButton("New purchase");
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
+    	
         newPurchaseButtonClicked();
       }
     });
@@ -131,7 +126,7 @@ public class PurchaseTab {
   private JButton createConfirmButton() {
     JButton b = new JButton("Confirm");
     b.addActionListener(new ActionListener() {
-    	
+    
       public void actionPerformed(ActionEvent e) {
         
     	final JFrame paying = new JFrame("Paying");
@@ -218,17 +213,14 @@ public class PurchaseTab {
     JButton b = new JButton("Cancel");
     b.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        cancelPurchaseButtonClicked();
+        
+    	  cancelPurchaseButtonClicked();
       }
     });
     b.setEnabled(false);
 
     return b;
   }
-
-
-
-
 
   /* === Event handlers for the menu buttons
    *     (get executed when the buttons are clicked)
@@ -238,9 +230,24 @@ public class PurchaseTab {
   /** Event handler for the <code>new purchase</code> event. */
   protected void newPurchaseButtonClicked() {
     log.info("New sale process started");
+    
+    int itemCount = purchasePane.barCodeField.getItemCount();
+    System.out.println(itemCount);
+    
     try {
+    	
       domainController.startNewPurchase();
       startNewSale();
+      int size = model.getWarehouseTableModel().getTableRows().size();
+      if(itemCount < size) {
+    	  for(int i = 0 + itemCount; i < size; i++)
+    		  purchasePane.barCodeField.addItem(model.getWarehouseTableModel().getTableRows().get(i).getId());
+     
+      }
+      
+      purchasePane.barCodeField.setSelectedIndex(0);
+	  purchasePane.fillDialogFields();
+    
     } catch (VerificationFailedException e1) {
       log.error(e1.getMessage());
     }
@@ -250,10 +257,13 @@ public class PurchaseTab {
   /**  Event handler for the <code>cancel purchase</code> event. */
   protected void cancelPurchaseButtonClicked() {
     log.info("Sale cancelled");
+    
     try {
       domainController.cancelCurrentPurchase();
       endSale();
       model.getCurrentPurchaseTableModel().clear();
+      
+      
     } catch (VerificationFailedException e1) {
       log.error(e1.getMessage());
     }

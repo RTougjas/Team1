@@ -65,75 +65,47 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
          * existing stock.
          */
     	
+    	//See on seal text fieldis
     	int soldItemQuantity = item.getQuantity();
+    	//See näitab kui palju laos on.
     	int stockItemQuantity = item.getStockItem().getQuantity();
-    	
-    	int tempStockItemQuantity;
-   
     	
     	if(rows.size() == 0) {
     		if(soldItemQuantity <= stockItemQuantity) {
     			rows.add(item);
-    			tempStockItemQuantity = stockItemQuantity - soldItemQuantity;
-    			System.out.println(tempStockItemQuantity);
     		}
-    		else {throw new InsufficientAmountException();}
+    		else {
+    			throw new InsufficientAmountException();
+    		}
     	}
     	else {
-    		boolean isInCart = false;
-			int indeks = 0;
-			for(int i = 0; i < rows.size(); i++) {
-				if(item.getId().equals(rows.get(i).getId())) {
-					isInCart = true;
-					indeks = i;
-					continue;
-				}
-			}
-		
-			if(isInCart) {
-				rows.get(indeks).setQuantity(rows.get(indeks).getQuantity() + item.getQuantity());
-				tempStockItemQuantity = rows.get(indeks).getQuantity();
-				if(tempStockItemQuantity > stockItemQuantity) {
-					throw new InsufficientAmountException();
-				}
-				System.out.println(tempStockItemQuantity);
-			}
-			else {
-				rows.add(item);
-			}
+    		if(soldItemQuantity > stockItemQuantity) {
+    			throw new InsufficientAmountException();
+    		}
+    		boolean inCart = false;
+        	int index = 0; 
+        	for(int i = 0; i < rows.size(); i++) {
+        		if(item.getId().equals(rows.get(i).getId())) {
+        			index = i;
+        			
+        			inCart = true;
+        			break;
+        		}
+        	}
+        	if(inCart) {
+        		if(rows.get(index).getQuantity() >= stockItemQuantity) {
+        			throw new InsufficientAmountException();
+        		}
+        		else {
+        			rows.get(index).setQuantity(rows.get(index).getQuantity() + item.getQuantity());
+        		}
+        	}
+        	else {
+        		rows.add(item);
+        	}
     	}
     	
     	fireTableDataChanged();
-    	
-    	/*
-    	if(soldItemQuantity <= stockItemQuantity) {
-    		if(rows.size() == 0) {
-    			
-    			rows.add(item);
-    		}
-    		else {
-    			boolean isInCart = false;
-    			int indeks = 0;
-    			for(int i = 0; i < rows.size(); i++) {
-    				if(item.getId().equals(rows.get(i).getId())) {
-    					isInCart = true;
-    					indeks = i;
-    					continue;
-    				}
-    			}
-    		
-    			if(isInCart) {
-    				rows.get(indeks).setQuantity(rows.get(indeks).getQuantity() + item.getQuantity());
-    			}
-    			else {
-    				rows.add(item);
-    			}
-    		}
-    		fireTableDataChanged();
-    	}
-    	else {
-    		throw new InsufficientAmountException();
-    	}
-    	*/
+    
     }
 }

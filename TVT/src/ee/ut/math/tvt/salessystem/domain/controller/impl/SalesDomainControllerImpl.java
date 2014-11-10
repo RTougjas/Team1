@@ -31,6 +31,9 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 
 	public void startNewPurchase() throws VerificationFailedException {
 		// XXX - Start new purchase
+		
+		
+		
 	}
 
 	public List<StockItem> loadWarehouseState() {
