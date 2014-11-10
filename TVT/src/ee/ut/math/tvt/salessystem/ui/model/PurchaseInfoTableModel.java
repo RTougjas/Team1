@@ -259,4 +259,3 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
     }
 }
 >>>>>>> Dropdown_parandused
-
