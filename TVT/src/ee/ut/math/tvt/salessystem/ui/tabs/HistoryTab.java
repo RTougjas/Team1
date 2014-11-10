@@ -4,16 +4,26 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 /**
@@ -53,7 +63,7 @@ public class HistoryTab {
     private Component drawHistoryMainPane() {
         JPanel panel = new JPanel();
 
-        JTable table = new JTable(model.getHistoryTableModel());
+        final JTable table = new JTable(model.getHistoryTableModel());
 
         JTableHeader header = table.getTableHeader();
         header.setReorderingAllowed(false);
@@ -70,6 +80,29 @@ public class HistoryTab {
         panel.add(scrollPane, gc);
 
         panel.setBorder(BorderFactory.createTitledBorder("History status"));
+        
+        table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				Point point = e.getPoint();
+				int currentRow = table.rowAtPoint(point);
+				HistoryItem Sales = model.getHistoryTableModel().getTableRows().get(currentRow);
+				List<SoldItem> list = Sales.getList();
+				
+				
+				JFrame jframe = new JFrame("Purchase Details");
+		
+				
+				PurchaseInfoTableModel salesModel = new PurchaseInfoTableModel();
+				salesModel.setRows(list);
+				JTable purchaseTable = new JTable(salesModel);
+			    JScrollPane pScrollPane = new JScrollPane(purchaseTable);
+				jframe.add(pScrollPane);
+				jframe.pack();
+				jframe.setVisible(true);
+				
+			}
+        });
         return panel;
+
       }
 }

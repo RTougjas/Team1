@@ -191,7 +191,7 @@ public class PurchaseTab {
         	for(int i = 0; i < currentPurchaseQuantity; i++) {
             	sum = sum + model.getCurrentPurchaseTableModel().getTableRows().get(i).getSum();
             }
-        	HistoryItem newItem = new HistoryItem(new Date(), sum);
+        	HistoryItem newItem = new HistoryItem(new Date(), sum, model.getCurrentPurchaseTableModel().getTableRows());
         	model.getCurrentPurchaseTableModel().clear();
          	paying.dispose();
         	model.getHistoryTableModel().addItem(newItem);
