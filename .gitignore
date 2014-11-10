@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 /bin/
-=======
 .DS_Store
-
->>>>>>> FETCH_HEAD
+*.class
+*.jar
