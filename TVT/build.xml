@@ -10,6 +10,7 @@
 	<!-- database variables -->
 	<property name="data.dir"	value="${basedir}/data"/>
 	<property name="db.file"	value="${data.dir}/POSdb"/>
+	<property name="conf.dir"	value="${basedir}/conf" />
 	<property name="db.alias"	value="POS"/>
 	<property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
 	<property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
