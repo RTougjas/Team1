@@ -232,7 +232,7 @@ public class PurchaseTab {
     log.info("New sale process started");
     
     int itemCount = purchasePane.barCodeField.getItemCount();
-    System.out.println(itemCount);
+    
     
     try {
     	

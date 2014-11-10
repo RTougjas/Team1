@@ -57,12 +57,19 @@ public class PurchaseItemPanel extends JPanel implements ActionListener {
     public PurchaseItemPanel(SalesSystemModel model) {
         this.model = model;
         
+        barCodeField = new JComboBox<Long>();
+        for(int i = 0; i < model.getWarehouseTableModel().getRowCount(); i++)
+        	barCodeField.addItem(model.getWarehouseTableModel().getTableRows().get(i).getId());
+        
+        barCodeField.addActionListener(this);
+        
         setLayout(new GridBagLayout());
 
         add(drawDialogPane(), getDialogPaneConstraints());
         add(drawBasketPane(), getBasketPaneConstraints());
 
         setEnabled(false);
+        
     }
 
     // shopping cart pane
