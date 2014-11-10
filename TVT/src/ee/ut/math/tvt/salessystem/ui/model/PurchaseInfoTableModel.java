@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package ee.ut.math.tvt.salessystem.ui.model;
 
 import java.util.List;
@@ -259,3 +259,4 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
     }
 }
 >>>>>>> Dropdown_parandused
+
