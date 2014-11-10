@@ -1,5 +1,7 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
@@ -136,4 +138,10 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
     	}
     	*/
     }
+
+	public void setRows(List<SoldItem> list) {
+		rows = list;
+		fireTableDataChanged();
+		
+	}
 }

@@ -2,23 +2,36 @@ package ee.ut.math.tvt.salessystem.domain.data;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class HistoryItem implements Cloneable, DisplayableItem{
 
 	private String date;
 	private String time;
 	private double price;
+	private List<SoldItem> list;
 	
+
+
 	public HistoryItem(Date now,
-			double price) {
+			double price, List<SoldItem> list) {
 		super();
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
 		this.date = date.format(now);
 		this.time = time.format(now);
 		this.price = price;
+		this.list = list;
 	}
 
+	
+	public List<SoldItem> getList() {
+		return list;
+	}
+
+	public void setList(List<SoldItem> list) {
+		this.list = list;
+	}
 	@Override
 	public Long getId() {
 		return null;
