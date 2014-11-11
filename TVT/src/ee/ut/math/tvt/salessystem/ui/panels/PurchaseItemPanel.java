@@ -4,7 +4,6 @@ import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.InsufficientAmountException;
-import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 import java.awt.GridBagConstraints;

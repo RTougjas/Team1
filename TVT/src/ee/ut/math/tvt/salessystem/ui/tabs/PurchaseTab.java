@@ -1,43 +1,30 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
-import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
-
-import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-
-import java.awt.Color;
-import java.awt.Component;
-
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.List;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
-import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+
 
 
 import org.apache.log4j.Logger;
@@ -138,7 +125,7 @@ public class PurchaseTab {
         paying.getContentPane().setLayout(new FlowLayout());        
         
         // Calculating total
-        int currentPurchaseQuantity = model.getCurrentPurchaseTableModel().getTableRows().size();
+        final int currentPurchaseQuantity = model.getCurrentPurchaseTableModel().getTableRows().size();
         double sum = 0;
         
         for(int i = 0; i < currentPurchaseQuantity; i++) {
@@ -157,7 +144,7 @@ public class PurchaseTab {
         paying.getContentPane().add(change);
         paying.getContentPane().add(accept);
         paying.getContentPane().add(cancel);
-        
+        accept.setEnabled(false);
         
         // payment actionListener 
         payment.getDocument().addDocumentListener(new DocumentListener() {
@@ -169,8 +156,14 @@ public class PurchaseTab {
         	    change();
         	  }
         	public void change(){
+        		try {
         		change.setText(String.valueOf(Double.valueOf(payment.getText())-finalsum));
-        	
+         		if (Double.valueOf(payment.getText())-finalsum >= 0) {
+        			accept.setEnabled(true);
+         		}
+        		} catch(NumberFormatException e) {
+        			log.error("Not a number");
+        		}
         	}
         });
         
@@ -179,7 +172,22 @@ public class PurchaseTab {
         	
         	public void actionPerformed(ActionEvent e)
         	{
-        	
+        	for(int i = 0; i < currentPurchaseQuantity; i++) {
+                model.getWarehouseTableModel().removeItem(model.getCurrentPurchaseTableModel().getTableRows().get(i));
+                domainController.insertPurchase(model.getCurrentPurchaseTableModel().getTableRows().get(i));
+                }
+        	double sum = 0;
+        	for(int i = 0; i < currentPurchaseQuantity; i++) {
+            	sum = sum + model.getCurrentPurchaseTableModel().getTableRows().get(i).getSum();
+            }
+        	HistoryItem newItem = new HistoryItem(new Date(), sum, model.getCurrentPurchaseTableModel().getTableRows());
+        	model.getCurrentPurchaseTableModel().clear();
+         	paying.dispose();
+        	model.getHistoryTableModel().addItem(newItem);
+            endSale();
+        	domainController.insertIntoHistory(newItem);
+
+
         	// TODO: If the payment is accepted then order should be accepted and saved.
     		
         	}
@@ -190,9 +198,7 @@ public class PurchaseTab {
         	
         	public void actionPerformed(ActionEvent e)
         	{
-        	
-        	// TODO: If the payment is canceled, then the screen should be closed/hided and the shopping cart should restore the state when it was left.
-        		
+        	        		
         	paying.dispose();
         	
     		

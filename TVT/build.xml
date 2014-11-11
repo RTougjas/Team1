@@ -5,30 +5,38 @@
 	<!-- Load variables -->
 	
 	<loadproperties srcFile="application.properties"/>
-	<!--
-	<loadproperties srcFile="version.properties">
-	      <filterchain>
-	        <linecontains>
-	          <contains value="build.revision.number"/>
-	        </linecontains>
-	      </filterchain>
-	  </loadproperties>
-	-->
+	<property name="lib.dir" value="${basedir}/lib"/>
+
+	<!-- database variables -->
+	<property name="data.dir"	value="${basedir}/data"/>
+	<property name="db.file"	value="${data.dir}/POSdb"/>
+	<property name="conf.dir"	value="${basedir}/conf" />
+	<property name="db.alias"	value="POS"/>
+	<property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
+	<property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
+	
 	<!-- Definitions of classpaths -->
 	
 	<path id="compile.classpath">
-		<fileset dir="lib">
-			<include name="*.jar"/>
-		</fileset>
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${lib.hibernate.dir}">
+             <include name="*.jar"/>
+        </fileset>
 	</path>
 	
-	<path id="test.classpath">
-		<pathelement location="${build.dir}"/>
-		<!-- configuration -->
-		<pathelement location="${conf.dir}"/>
-		<fileset dir="lib">
-			<include name="*.jar"/>
-		</fileset>
+	<path id="run.classpath">
+	        <pathelement location="${build.dir}"/>
+	        <!-- configuration -->
+	        <pathelement location="${conf.dir}"/>
+	        <fileset dir="${lib.dir}">
+	            <include name="*.jar"/>
+	        </fileset>
+
+	        <fileset dir="${lib.hibernate.dir}">
+	             <include name="*.jar"/>
+	        </fileset>
 	</path>
 	
 	<!-- Targets necessary -->
@@ -38,7 +46,7 @@
 	</target>
 	
 	<target name="build" description="Build" depends="clean">
-		<mkdir dir="lib" />
+		<mkdir dir="${lib.dir}" />
 		<mkdir dir="${build.dir}"/>
 		<mkdir dir="${build.jar.dir}"/>
 		<javac
@@ -57,11 +65,9 @@
 	
 	<!--Creates the deployable jar file  -->
 	<target name="dist" depends="build">
-		<jar destfile="build/jar/Team1.jar">
+		<jar destfile="${build.jar.dir}/Team1.jar">
 			<fileset dir="${build.dir}" />
-			<zipfileset includes="**/*.class" src="lib/log4j-1.2.17.jar" />
-			<zipfileset includes="**/*.class" src="lib/jgoodies-common-1.4.0.jar" />
-			<zipfileset includes="**/*.class" src="lib/jgoodies-looks-2.5.2.jar" />
+			<zipgroupfileset dir="${lib.dir}" includes="*.jar" />
 			<manifest>
 				<attribute name="Main-Class" value="ee.ut.math.tvt.team1.Intro" />
 			</manifest>
@@ -73,18 +79,38 @@
 	</target>
 
 	<target name="jrun" depends="dist">
-		<java jar="build/jar/Team1.jar" fork="true"/>
+		<java jar="${build.jar.dir}/Team1.jar" fork="true"/>
 	</target>
 	
 	
     <target name="run" depends="build" description="run">
-        <java classname="ee.ut.math.tvt.team1.Intro" classpathref="test.classpath" fork="yes" />
+        <java classname="ee.ut.math.tvt.team1.Intro" classpathref="run.classpath" fork="yes" />
 	</target>
 	
 	<target name="runc" depends="build" description="Run the application (console)">
-		<java classname="ee.ut.math.tvt.team1.Intro" classpathref="test.classpath" fork="yes">
+		<java classname="ee.ut.math.tvt.team1.Intro" classpathref="run.classpath" fork="yes">
 			<arg value="console" />
 		</java>
+	</target>
+	
+	<target name="dbmanager" description="Start the HSQLDB manager">
+	        <java
+	            classname="org.hsqldb.util.DatabaseManagerSwing"
+	            classpathref="run.classpath"
+	            fork="yes"
+	        >
+	            <arg line="--user sa --url ${db.url}" />
+	        </java>
+	    </target>
+
+	    <target name="startdb" description="Start the HSQLDB with the default params">
+	        <java
+	            classname="org.hsqldb.Server"
+	            classpathref="run.classpath"
+	            fork="yes"
+	        >
+	            <arg line="-database.0 '${db.file}' -dbname.0 '${db.alias}'" /> 
+	        </java>
 	</target>
 	
 	<target name="git_commit" description="Pushes commits to our github">

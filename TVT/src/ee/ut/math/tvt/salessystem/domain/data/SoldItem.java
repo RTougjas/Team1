@@ -1,18 +1,48 @@
 package ee.ut.math.tvt.salessystem.domain.data;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 
 /**
  * Already bought StockItem. SoldItem duplicates name and price for preserving history. 
  */
+@Entity
+@Table(name="SOLDITEM")
 public class SoldItem implements Cloneable, DisplayableItem {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	
+	@ManyToOne
+	@PrimaryKeyJoinColumn(name="STOCKITEM_ID", referencedColumnName="ID")
     private StockItem stockItem;
+	
+	@ManyToMany(mappedBy="list")
+	private List<HistoryItem> sale;
     
+	@Column(name="name")
     private String name;
+	
+	@Column(name="QUANTITY")
     private Integer quantity;
+	
+	@Column(name="ITEMPRICE")
     private double price;
+	
+	public SoldItem(){
+		
+	}
     
     public SoldItem(StockItem stockItem, int quantity) {
         this.stockItem = stockItem;

@@ -4,6 +4,9 @@ import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerImpl;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 /**
@@ -13,6 +16,8 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger log = Logger.getLogger(StockTableModel.class);
+	
+	private SalesDomainController dc;
 
 	public StockTableModel() {
 		super(new String[] {"Id", "Name", "Price", "Quantity"});
@@ -44,15 +49,24 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 			item.setQuantity(item.getQuantity() + stockItem.getQuantity());
 			log.debug("Found existing item " + stockItem.getName()
 					+ " increased quantity by " + stockItem.getQuantity());
+			dc = new SalesDomainControllerImpl();
+			dc.insertIntoWarehouse(item);
 		}
 		catch (NoSuchElementException e) {
 			rows.add(stockItem);
 			log.debug("Added " + stockItem.getName()
 					+ " quantity of " + stockItem.getQuantity());
+			dc = new SalesDomainControllerImpl();
+			dc.insertIntoWarehouse(stockItem);
 		}
 		fireTableDataChanged();
 	}
 
+	public void removeItem(final SoldItem soldItem) {
+		StockItem item = getItemById(soldItem.getId());
+		item.setQuantity(item.getQuantity()- soldItem.getQuantity());
+		fireTableDataChanged();
+	}
 	@Override
 	public String toString() {
 		final StringBuffer buffer = new StringBuffer();
