@@ -49,6 +49,9 @@ public interface SalesDomainController {
     public void endSession(); 
     
     public List<HistoryItem> loadHistoryState();
-
+    
+    public void insertIntoWarehouse(StockItem stockItem);
+    
+    public void removeFromWarehouse(StockItem stockItem);
     
 }

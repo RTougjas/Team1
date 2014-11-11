@@ -66,7 +66,17 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		return result;
 	}
 	
+	public void insertIntoWarehouse(StockItem stockItem){
+		session.getTransaction().begin();
+		session.merge(stockItem);
+		session.getTransaction().commit();
+	}
 	
+	public void removeFromWarehouse(StockItem stockItem){
+		session.getTransaction().begin();
+		session.delete(stockItem);
+		session.getTransaction().commit();
+	}
 	
 	public void endSession() {
 	    HibernateUtil.closeSession();
