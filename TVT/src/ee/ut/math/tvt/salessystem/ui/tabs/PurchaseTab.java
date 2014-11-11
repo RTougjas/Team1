@@ -186,12 +186,14 @@ public class PurchaseTab {
         	{
         	for(int i = 0; i < currentPurchaseQuantity; i++) {
                 model.getWarehouseTableModel().removeItem(model.getCurrentPurchaseTableModel().getTableRows().get(i));
+                domainController.insertPurchase(model.getCurrentPurchaseTableModel().getTableRows().get(i));
                 }
         	double sum = 0;
         	for(int i = 0; i < currentPurchaseQuantity; i++) {
             	sum = sum + model.getCurrentPurchaseTableModel().getTableRows().get(i).getSum();
             }
         	HistoryItem newItem = new HistoryItem(new Date(), sum, model.getCurrentPurchaseTableModel().getTableRows());
+        	domainController.insertIntoHistory(newItem);
         	model.getCurrentPurchaseTableModel().clear();
          	paying.dispose();
         	model.getHistoryTableModel().addItem(newItem);

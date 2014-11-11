@@ -9,10 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name="HISTORYITEM")
@@ -31,7 +29,7 @@ public class HistoryItem implements Cloneable, DisplayableItem{
 	@Column(name="PRICE")
 	private double price;
 	
-	@OneToMany(mappedBy="sale_id")
+	@OneToMany(mappedBy="sale")
 	/*@JoinTable(name="SoldItem",
 			joinColumns={ @JoinColumn(name="SALE_ID", referencedColumnName="ID")},
 			inverseJoinColumns={ @JoinColumn(name="STOCKITEM_ID", referencedColumnName="ID")}

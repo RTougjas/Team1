@@ -1,7 +1,6 @@
 package ee.ut.math.tvt.salessystem.domain.controller.impl;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -80,5 +79,17 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	
 	public void endSession() {
 	    HibernateUtil.closeSession();
+	}
+	
+	public void insertIntoHistory(HistoryItem historyItem){
+		session.getTransaction().begin();
+		session.merge(historyItem);
+		session.getTransaction().commit();
+	}
+	
+	public void insertPurchase(SoldItem soldItem){
+		session.getTransaction().begin();
+		session.merge(soldItem);
+		session.getTransaction().commit();
 	}
 }
