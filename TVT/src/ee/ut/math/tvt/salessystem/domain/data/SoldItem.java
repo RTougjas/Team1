@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
-
 /**
  * Already bought StockItem. SoldItem duplicates name and price for preserving history. 
  */
@@ -25,6 +24,10 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@ManyToOne
 	@JoinColumn(name="STOCKITEM_ID")
     private StockItem stockItem;
+	
+	@ManyToOne
+	@JoinColumn(name="SALE_ID")
+	private HistoryItem sale_id;
     
 	@Column(name="name")
     private String name;
@@ -34,6 +37,10 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	
 	@Column(name="ITEMPRICE")
     private double price;
+	
+	public SoldItem(){
+		
+	}
     
     public SoldItem(StockItem stockItem, int quantity) {
         this.stockItem = stockItem;

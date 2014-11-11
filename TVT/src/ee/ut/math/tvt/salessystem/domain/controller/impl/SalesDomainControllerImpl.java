@@ -8,6 +8,7 @@ import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.util.HibernateUtil;
@@ -57,6 +58,11 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	
 	public List<StockItem> loadWarehouseState(){
 		List<StockItem> result = session.createQuery("from StockItem").list();
+		return result;
+	}
+	
+	public List<HistoryItem> loadHistoryState(){
+		List <HistoryItem> result = session.createQuery("from HistoryItem").list();
 		return result;
 	}
 	
