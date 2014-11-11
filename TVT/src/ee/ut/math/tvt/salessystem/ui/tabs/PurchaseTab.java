@@ -1,33 +1,21 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
-import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
-import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Date;
-import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -193,11 +181,12 @@ public class PurchaseTab {
             	sum = sum + model.getCurrentPurchaseTableModel().getTableRows().get(i).getSum();
             }
         	HistoryItem newItem = new HistoryItem(new Date(), sum, model.getCurrentPurchaseTableModel().getTableRows());
-        	domainController.insertIntoHistory(newItem);
         	model.getCurrentPurchaseTableModel().clear();
          	paying.dispose();
         	model.getHistoryTableModel().addItem(newItem);
             endSale();
+        	domainController.insertIntoHistory(newItem);
+
 
         	// TODO: If the payment is accepted then order should be accepted and saved.
     		

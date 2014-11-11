@@ -1,11 +1,9 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
-import java.util.NoSuchElementException;
 
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
-import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 public class HistoryTableModel extends SalesSystemTableModel<HistoryItem>{
 	private static final long serialVersionUID = 1L;

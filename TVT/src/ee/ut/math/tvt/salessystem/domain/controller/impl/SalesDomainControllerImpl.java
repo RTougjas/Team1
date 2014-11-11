@@ -19,7 +19,7 @@ import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 public class SalesDomainControllerImpl implements SalesDomainController {
 	
 	private Session session = HibernateUtil.currentSession();
-	
+		
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
 		// Let's assume we have checked and found out that the buyer is underaged and
 		// cannot buy chupa-chups
@@ -68,12 +68,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	public void insertIntoWarehouse(StockItem stockItem){
 		session.getTransaction().begin();
 		session.merge(stockItem);
-		session.getTransaction().commit();
-	}
-	
-	public void removeFromWarehouse(StockItem stockItem){
-		session.getTransaction().begin();
-		session.delete(stockItem);
 		session.getTransaction().commit();
 	}
 	
