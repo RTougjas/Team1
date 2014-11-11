@@ -4,6 +4,8 @@ package ee.ut.math.tvt.salessystem.domain.controller.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
@@ -13,7 +15,10 @@ import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 /**
  * Implementation of the sales domain controller.
  */
+@SuppressWarnings("unchecked")
 public class SalesDomainControllerImpl implements SalesDomainController {
+	
+	private Session session = HibernateUtil.currentSession();
 	
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
 		// Let's assume we have checked and found out that the buyer is underaged and
@@ -31,7 +36,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		// XXX - Start new purchase
 	}
 
-	public List<StockItem> loadWarehouseState() {
+	/*public List<StockItem> loadWarehouseState() {
 		// XXX mock implementation
 		List<StockItem> dataset = new ArrayList<StockItem>();
 
@@ -47,7 +52,15 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		dataset.add(beer);
 		
 		return dataset;
+		
+	}*/
+	
+	public List<StockItem> loadWarehouseState(){
+		List<StockItem> result = session.createQuery("from StockItem").list();
+		return result;
 	}
+	
+	
 	
 	public void endSession() {
 	    HibernateUtil.closeSession();

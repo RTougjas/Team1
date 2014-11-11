@@ -4,11 +4,31 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+
+@Entity
+@Table(name="HISTORYITEM")
 public class HistoryItem implements Cloneable, DisplayableItem{
 
+	@Column(name="DATE")
 	private String date;
+	
+	@Column(name="TIME")
 	private String time;
+	
+	@Column(name="PRICE")
 	private double price;
+	
+	@OneToMany
+	@JoinTable(name="SoldItem",
+			joinColumns={ @JoinColumn(name="SALE_ID", referencedColumnName="ID")},
+			inverseJoinColumns={ @JoinColumn(name="STOCKITEM_ID", referencedColumnName="ID")}
+	)
 	private List<SoldItem> list;
 	
 

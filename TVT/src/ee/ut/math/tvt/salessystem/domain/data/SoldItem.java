@@ -23,7 +23,7 @@ public class SoldItem implements Cloneable, DisplayableItem {
     private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="STOCKITEM_ID", nullable = false)
+	@JoinColumn(name="STOCKITEM_ID")
     private StockItem stockItem;
     
 	@Column(name="name")
