@@ -16,7 +16,13 @@ public class StockItemTest {
 	
 	@Test
 	public void testClone(){
-		assertEquals(item1.clone().toString(), item1.toString());
+		StockItem item2 = (StockItem) item1.clone();
+		assertEquals(item2.getId(), item1.getId());
+		assertEquals(item2.getName(), item1.getName());
+		assertEquals(item2.getDescription(), item1.getDescription());
+		assertEquals(item2.getPrice(), item1.getPrice(), 0.001);
+		assertEquals(item2.getQuantity(), item1.getQuantity(), 0.001);
+		
 	}
 	
 	@Test(expected=RuntimeException.class)
