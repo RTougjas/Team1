@@ -56,7 +56,7 @@ public class PurchaseTab {
      */
     public Component draw() {
         JPanel panel = new JPanel();
-
+        
         // Layout
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panel.setLayout(new GridBagLayout());
@@ -274,6 +274,13 @@ public class PurchaseTab {
         gc.gridwidth = GridBagConstraints.RELATIVE;
 
         return gc;
+    }
+    
+    public void refresh() {
+    	
+    	domainController.getAllStockItems();
+    	model.getCurrentPurchaseTableModel().fireTableDataChanged();
+    	purchasePane.reset();
     }
 
 }
