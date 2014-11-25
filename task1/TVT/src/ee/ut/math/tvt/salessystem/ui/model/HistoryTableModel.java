@@ -29,7 +29,7 @@ public class HistoryTableModel extends SalesSystemTableModel<HistoryItem>{
 	
 	public void addItem(final HistoryItem historyItem) {
 		rows.add(historyItem);
-		log.debug("Added new item to history");
+		//log.debug("Added new item to history");
 		fireTableDataChanged();
 	}
 	
