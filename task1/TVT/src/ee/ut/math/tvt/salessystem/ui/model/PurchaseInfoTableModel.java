@@ -77,7 +77,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
     		if(soldItemQuantity <= stockItemQuantity) {
     			rows.add(item);
     			tempStockItemQuantity = stockItemQuantity - soldItemQuantity;
-    			System.out.println(tempStockItemQuantity);
+    			//System.out.println(tempStockItemQuantity);
     		}
     		else {throw new InsufficientAmountException();}
     	}
@@ -98,7 +98,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 				if(tempStockItemQuantity > stockItemQuantity) {
 					throw new InsufficientAmountException();
 				}
-				System.out.println(tempStockItemQuantity);
+				//System.out.println(tempStockItemQuantity);
 			}
 			else {
 				rows.add(item);
