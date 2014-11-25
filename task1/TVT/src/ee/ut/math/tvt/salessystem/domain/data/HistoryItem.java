@@ -43,13 +43,13 @@ public class HistoryItem implements Cloneable, DisplayableItem{
 	}
 
 	public HistoryItem(Date now,
-			double price, List<SoldItem> list) {
+			List<SoldItem> list) {
 		super();
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
 		this.date = date.format(now);
 		this.time = time.format(now);
-		this.price = price;
+		this.price = getSum();
 		this.list = list;
 	}
 
@@ -97,6 +97,22 @@ public class HistoryItem implements Cloneable, DisplayableItem{
             case 2: return new Double(price);
             default: throw new RuntimeException("invalid column!");
         }
+    }
+    
+    public void addSoldItem(SoldItem solditem){
+    	list.add(solditem);
+    }
+    
+    public Double getSum(){
+    	try{
+	    	Double sum = 0.0;
+	    	for(SoldItem elem : this.list){
+	    		sum += elem.getSum();
+	    	}
+	    	return sum;
+    	}catch(NullPointerException e){
+    		return 0.0;
+    	}
     }
 	
 }

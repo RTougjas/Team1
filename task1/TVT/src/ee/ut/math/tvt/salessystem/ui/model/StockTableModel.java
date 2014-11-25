@@ -8,6 +8,7 @@ import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerImpl;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.domain.exception.InsufficientAmountException;
 
 /**
  * Stock item table model.
@@ -62,10 +63,15 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		fireTableDataChanged();
 	}
 
-	public void removeItem(final SoldItem soldItem) {
+	public void removeItem(final SoldItem soldItem) throws InsufficientAmountException {
 		StockItem item = getItemById(soldItem.getId());
-		item.setQuantity(item.getQuantity()- soldItem.getQuantity());
-		fireTableDataChanged();
+		if(soldItem.getQuantity() > item.getQuantity()){
+			throw new InsufficientAmountException();
+		}
+		else{
+			item.setQuantity(item.getQuantity()- soldItem.getQuantity());
+			fireTableDataChanged();
+		}
 	}
 	@Override
 	public String toString() {

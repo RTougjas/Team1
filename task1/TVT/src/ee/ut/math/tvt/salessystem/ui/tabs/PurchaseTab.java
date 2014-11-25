@@ -1,6 +1,7 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
+import ee.ut.math.tvt.salessystem.domain.exception.InsufficientAmountException;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -23,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 
 
 
@@ -173,14 +175,17 @@ public class PurchaseTab {
         	public void actionPerformed(ActionEvent e)
         	{
         	for(int i = 0; i < currentPurchaseQuantity; i++) {
-                model.getWarehouseTableModel().removeItem(model.getCurrentPurchaseTableModel().getTableRows().get(i));
-                domainController.insertPurchase(model.getCurrentPurchaseTableModel().getTableRows().get(i));
+                try {
+					model.getWarehouseTableModel().removeItem(model.getCurrentPurchaseTableModel().getTableRows().get(i));
+					domainController.insertPurchase(model.getCurrentPurchaseTableModel().getTableRows().get(i));
+				} catch (InsufficientAmountException e1) {
+				}
                 }
         	double sum = 0;
         	for(int i = 0; i < currentPurchaseQuantity; i++) {
             	sum = sum + model.getCurrentPurchaseTableModel().getTableRows().get(i).getSum();
             }
-        	HistoryItem newItem = new HistoryItem(new Date(), sum, model.getCurrentPurchaseTableModel().getTableRows());
+        	HistoryItem newItem = new HistoryItem(new Date(), model.getCurrentPurchaseTableModel().getTableRows());
         	model.getCurrentPurchaseTableModel().clear();
          	paying.dispose();
         	model.getHistoryTableModel().addItem(newItem);
